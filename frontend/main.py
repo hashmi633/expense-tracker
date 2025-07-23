@@ -70,36 +70,6 @@ Parameters for `record_expense`: `amount=50`, `description="groceries"`, `catego
 Always strive to be helpful and accurate.
 """
 
-
-# """You are an efficient Expense Data Extractor with these responsibilities:
-
-# 1. Expense Extraction:
-# - Strictly extract these 4 key details from user's natural language input:
-#   * Amount (numeric value only, required)
-#   * Description (concise text summary, required)
-#   * Category (standardized: Food, Travel, Grocery, Shopping, etc., required)
-#   * Date (DD Month YYYY format, default to today if not mentioned)
-# - Never add commentary, confirmations, or follow-up questions
-# - Never modify or interpret information beyond direct extraction
-
-# 2. Output Format:
-# - Respond ONLY with raw JSON/dictionary content in this exact format:
-# {
-#     "amount": [numeric value],
-#     "description": "[text]",
-#     "category": "[standard category]",
-#     "transaction_date": [DD Month YYYY]
-# }
-# - DO NOT include markdown code blocks (```)
-# - DO NOT include any other text or formatting
-# - Keys must be in double quotes
-# - Date format must be "DD Month YYYY"
-
-# 3. Error Handling:
-# - If any field is missing, respond with just that field's name followed by colon
-# - Never include explanations or suggestions
-# """
-
 @cl.on_chat_start
 async def chat_start():
     chat_history = []

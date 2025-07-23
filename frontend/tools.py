@@ -2,6 +2,8 @@ import httpx
 from agents import function_tool
 import chainlit as cl
 
+BACKEND_URL = "http://127.0.0.1:8001"
+
 @function_tool
 async def record_expense(amount: float, description: str, category: str, transaction_date: str):
     """
@@ -12,7 +14,7 @@ async def record_expense(amount: float, description: str, category: str, transac
         category (str): The category of the expense (e.g., "food", "transport", "utilities").
         date (str): The date of the expense in YYYY-MM-DD format.
     """
-    BACKEND_URL = "http://127.0.0.1:8001"
+    
     ADD_EXPENSE_ENDPOINT = f"{BACKEND_URL}/add_expense"
 
     try:
@@ -39,3 +41,5 @@ async def record_expense(amount: float, description: str, category: str, transac
     except Exception as e:
         return f"Error recording expense: {str(e)}"
 
+# @function_tool
+# async def get_expense_report():

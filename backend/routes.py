@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException
 from model import Warehouse, Expenses
 from sqlmodel import Session, select
 from db.database import DB_SESSION 
+from typing import Optional
+from datetime import datetime
 
 router = APIRouter()
 
@@ -24,3 +26,22 @@ def add_to_expense(expense:Expenses,session: DB_SESSION):
     session.commit()
     session.refresh(expense)
     return expense
+
+@router.get('/report')
+def get_report(session : DB_SESSION,
+               category: Optional[str] = None,
+                start_date: Optional[str] = None,
+                end_date: Optional[str] = None,
+):
+    query = select(Expenses)
+    if category:
+        query = query.where(category==Expenses.category)
+    if start_date:
+        start_date_obj = datetime.strptime(start_date, "%Y-%m-%d")
+        query = query.where(Expenses.transaction_date >= start_date_obj)
+    if end_date:
+        end_date_obj = datetime.strptime(end_date, "%Y-%m-%d")
+        query = query.where(Expenses.transaction_date <= end_date_obj)
+
+    answer = session.exec(query).all()
+    return answer
