@@ -5,7 +5,7 @@ from db.database import DB_SESSION
 from typing import Optional
 from datetime import datetime
 from schemas import ExpenseCreate, test_class
-import json
+
 
 router = APIRouter()
 
@@ -48,8 +48,4 @@ def get_report(session : DB_SESSION,
         query = query.where(Expenses.transaction_date <= end_date_obj)
 
     answer = session.exec(query).all()
-    print(type(answer))
-    # json_answer = json.dumps(answer.__dict__)
-    # print(type(json_answer))
-
     return answer
