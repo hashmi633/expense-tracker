@@ -13,16 +13,6 @@ class Expenses(SQLModel, table=True):
     created_at : datetime = datetime.utcnow()
     transaction_date : datetime
 
-    @validator("transaction_date", pre=True)
-    def parse_date(cls, v):
-        if isinstance(v, str):
-            try:
-                return datetime.strptime(v, "%d %B %Y")
-            except ValueError as e:
-                raise ValueError("Date must be in 'DD Month YYYY' format") from e
-        return v
-
-
 
 class Warehouse(SQLModel, table=True):
     warehouse_id: Optional[int] = Field(default=None, primary_key=True)

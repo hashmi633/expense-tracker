@@ -9,7 +9,7 @@ from routes import router
 async def lifespan(app: FastAPI)->AsyncGenerator[None, None]:
     print("Starting Application")
     create_db_and_tables()
-    print("Expense Categorizer Application Started")
+    print("Expense Tracker Application Started")
     yield
 
 app : FastAPI = FastAPI(lifespan=lifespan, title="Expense Categorizer",

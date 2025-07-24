@@ -4,6 +4,8 @@ from sqlmodel import Session, select
 from db.database import DB_SESSION 
 from typing import Optional
 from datetime import datetime
+from schemas import ExpenseCreate, test_class
+import json
 
 router = APIRouter()
 
@@ -21,7 +23,9 @@ def add_to_warehouse(warehouse_data:Warehouse,session: DB_SESSION):
     return warehouse_data
 
 @router.post('/add_expense')
-def add_to_expense(expense:Expenses,session: DB_SESSION):
+def add_to_expense(expense_data:ExpenseCreate, session: DB_SESSION):
+    expense_data_dict = expense_data.dict() 
+    expense = Expenses(**expense_data_dict)
     session.add(expense)
     session.commit()
     session.refresh(expense)
@@ -44,4 +48,8 @@ def get_report(session : DB_SESSION,
         query = query.where(Expenses.transaction_date <= end_date_obj)
 
     answer = session.exec(query).all()
+    print(type(answer))
+    # json_answer = json.dumps(answer.__dict__)
+    # print(type(json_answer))
+
     return answer
