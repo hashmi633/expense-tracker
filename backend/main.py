@@ -25,7 +25,7 @@ app : FastAPI = FastAPI(lifespan=lifespan, title="Expense Categorizer",
 app.include_router(router=router)
 
 def main():
-    print("Hello from expense-categorizer!")
+    print("Hello from expense-tracker!")
 
 
 if __name__ == "__main__":
