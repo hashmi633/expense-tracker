@@ -12,7 +12,7 @@ async def lifespan(app: FastAPI)->AsyncGenerator[None, None]:
     print("Expense Tracker Application Started")
     yield
 
-app : FastAPI = FastAPI(lifespan=lifespan, title="Expense Categorizer",
+app : FastAPI = FastAPI(lifespan=lifespan, title="Expense Tracker",
                         version="0.0.0",
                         servers=[
                             {

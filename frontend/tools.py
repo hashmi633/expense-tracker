@@ -34,7 +34,7 @@ async def record_expense(amount: float, description: str, category: str, transac
                 timeout=10.0
             )
             if response.status_code ==200:
-                await cl.Message(content="Expense recorded successfully! ✅").send()
+                await cl.Message(content="Expense recorded successfully! ✅").update()
                 return "expense recorded successfully"
             else:
                 return f"failed to record expense. status {response.status_code}, error: {response.text}"
@@ -69,10 +69,23 @@ async def get_expense_report(category: Optional[str] = None,
                 timeout=10
             )
             response.raise_for_status()
+            raw_response = response.text
+            print("---------Raw JSON string from response.text---------")
+            print(raw_response)
+            print(type(raw_response))
+
             report_data = response.json()
-            await cl.Message(content="Report extracted successfully! ✅").send()
+            print("---------Conversion to Dict from response object---------")
+            print(report_data)
+            print(type(report_data))
+
+            await cl.Message(content="Report extracted successfully! ✅").update()
+            
             json_data = json.dumps(report_data) 
+            print("---------Conversion to str from dict---------")
             print(json_data)
+            print(type(json_data))
+            
             return json_data
     except Exception as e:
         # Handle or log the error appropriately

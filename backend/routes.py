@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get('/')
 def welcome():
-    response = {"message": "Expense Categorizer Application is running"}
+    response = {"message": "Expense Tracker Application is running"}
     print("Returning:", response)  # Check terminal logs
     return response
 

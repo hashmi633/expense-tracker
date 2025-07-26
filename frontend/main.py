@@ -2,7 +2,7 @@ import chainlit as cl
 import os, json
 from dotenv import load_dotenv
 from litellm import completion
-from typing import List, Dict, Any,cast
+from typing import List, Dict, Any, cast
 from openai import AsyncOpenAI
 from agents import Agent, Runner, set_tracing_disabled, OpenAIChatCompletionsModel, RunConfig, ModelProvider
 from agents.extensions.models.litellm_model import LitellmModel
@@ -11,32 +11,34 @@ from tools import record_expense, get_expense_report
 
 # set_tracing_disabled(disabled=True)
 
-MODEL = "deepseek/deepseek-chat-v3-0324:free"
+# MODEL = "deepseek/deepseek-chat-v3-0324:free"
 
 # MODEL = "gpt-4o"
-load_dotenv(override=True)
+MODEL = "gpt-3.5-turbo"
+
+# load_dotenv(override=True)
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not OPENROUTER_API_KEY:
     raise ValueError("OPENROUTER API KEY NOT FOUND IN ENVIRONMENTAL VARIABLE")
 
-external_client =AsyncOpenAI(
-    api_key=OPENROUTER_API_KEY,
-    base_url="https://openrouter.ai/api/v1"
+# external_client =AsyncOpenAI(
+#     api_key=OPENROUTER_API_KEY,
+#     base_url="https://openrouter.ai/api/v1"
     
-)
+# )
 
-model = OpenAIChatCompletionsModel(
-    model=MODEL,
-    openai_client=external_client
-)
+# model = OpenAIChatCompletionsModel(
+#     model=MODEL,
+#     openai_client=external_client
+# )
 
-config = RunConfig(
-    model=model,
-    model_provider=cast(ModelProvider, external_client),
-    tracing_disabled=True,
-)
+# config = RunConfig(
+#     model=model,
+#     model_provider=cast(ModelProvider, external_client),
+#     tracing_disabled=True,
+# )
 
 
 system_message = """
@@ -122,15 +124,15 @@ async def main(message: cl.Message):
         response = await Runner.run(
             agent,
             message.content,
-            run_config=config,
+            # run_config=config,
         )
         if response.final_output:
             msg.content = response.final_output
-            await msg.send()
+            await msg.update()
             print("there is final_output")
         else:
             print("there is no final_output")
-            await cl.Message(content="Agent processing complete.").send()
+            await cl.Message(content="Agent processing complete.").update()
 
     except Exception as e:
         msg.content = f"Error: {str(e)}" 
